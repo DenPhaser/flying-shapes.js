@@ -1,7 +1,7 @@
 var tau = Math.PI * 2;
 var
-    w = c.width = window.innerWidth,
-    h = c.height = window.innerHeight,
+    w = c.width = c.clientWidth,
+    h = c.height = c.clientHeight,
     colorCode = 'hsla(#hue, 80%, 50%, #alp)',
 
     opts = {
@@ -41,8 +41,8 @@ function Shape() {
     this.reset();
 }
 
-Shape.prototype.reset = function() {
-    this.x = - Math.random();
+Shape.prototype.reset = function () {
+    this.x = -Math.random();
     this.y = Math.random();
     this.r = opts.minRadius + Math.random() * (opts.maxRadius - opts.minRadius);
     this.phase = Math.random() * tau;
@@ -55,8 +55,9 @@ Shape.prototype.reset = function() {
     this.speed = 1 + Math.random();
 }
 
-Shape.prototype.draw = function() {
-    var x = this.x * w, y = this.y * h;
+Shape.prototype.draw = function () {
+    var x = this.x * w,
+        y = this.y * h;
     var x1 = x + Math.cos(this.phase) * this.r,
         y1 = y + Math.sin(this.phase) * this.r,
         x2 = x + Math.cos(this.phase + 1 / 3 * tau) * this.r,
@@ -64,7 +65,7 @@ Shape.prototype.draw = function() {
         x3 = x + Math.cos(this.phase + 2 / 3 * tau) * this.r,
         y3 = y + Math.sin(this.phase + 2 / 3 * tau) * this.r;
 
-    var path=new Path2D();
+    var path = new Path2D();
     path.moveTo(x1, y1);
     path.lineTo(x2, y2);
     path.lineTo(x3, y3);
@@ -106,7 +107,7 @@ function update(rate) {
     for (var i = 0; i < shapes.length; i++) {
         var shape = shapes[i];
 
-        shape.phase = (shape.phase + 0.1* rate * 1) % tau;
+        shape.phase = (shape.phase + 0.1 * rate * 1) % tau;
         shape.x += rate * shape.speed / opts.cycle;
 
         if (shape.x > 1.1) {
@@ -144,7 +145,7 @@ function frame() {
 }
 
 window.addEventListener('resize', function () {
-    w = c.width = window.innerWidth;
-    h = c.height = window.innerHeight;
+    w = c.width = c.clientWidth;
+    h = c.height = c.clientHeight;
     ctx.fillRect(0, 0, w, h);
 });
